@@ -48,11 +48,12 @@ jobs:
       - uses: actions/github-script@v4
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
-          # script: |
-          #   const path = require('path');
+          script: |
+            const path = require('path');
 
-          #   return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
-          #     github,
-          #     context,
-          #     actionName: 'renderLinkComment',
-          #   });
+            return 'It is made'
+            # require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
+            #   github,
+            #   context,
+            #   actionName: 'renderLinkComment',
+            # });
