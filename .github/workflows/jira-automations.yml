@@ -51,9 +51,8 @@ jobs:
           script: |
             const path = require('path');
 
-            return 'It is made'
-            # require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
-            #   github,
-            #   context,
-            #   actionName: 'renderLinkComment',
-            # });
+            return require(path.resolve('.github/scripts/test.js'))({
+              github,
+              context,
+              actionName: 'TestName',
+            });
