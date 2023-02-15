@@ -1,58 +1,58 @@
-  # services:
-  # # A static site
-  # - type: web
-  #   name: my blog
-  #   env: static
-  #   buildCommand: yarn build
-  #   staticPublishPath: ./build
-  #   pullRequestPreviewsEnabled: true # optional
-  #   buildFilter:
-  #     paths:
-  #     - src/**/*.js
-  #     ignoredPaths:
-  #     - src/**/*.test.js
-  #   headers:
-  #     - path: /*
-  #       name: X-Frame-Options
-  #       value: sameorigin
-  #   routes:
-  #     - type: redirect
-  #       source: /old
-  #       destination: /new
-  #     - type: rewrite
-  #       source: /a/*
-  #       destination: /a
-name: Jira Automations
+  services:
+  # A static site
+  - type: web
+    name: my blog
+    env: static
+    buildCommand: yarn build
+    staticPublishPath: ./build
+    pullRequestPreviewsEnabled: true # optional
+    buildFilter:
+      paths:
+      - src/**/*.js
+      ignoredPaths:
+      - src/**/*.test.js
+    headers:
+      - path: /*
+        name: X-Frame-Options
+        value: sameorigin
+    routes:
+      - type: redirect
+        source: /old
+        destination: /new
+      - type: rewrite
+        source: /a/*
+        destination: /a
+# name: Jira Automations
 
-on:
-  pull_request:
-    types:
-      [
-        opened,
-        closed,
-        ready_for_review,
-        review_requested,
-        review_request_removed,
-      ]
+# on:
+#   pull_request:
+#     types:
+#       [
+#         opened,
+#         closed,
+#         ready_for_review,
+#         review_requested,
+#         review_request_removed,
+#       ]
 
-jobs:
-  add-render-link-to-issue:
-    name: Add render link to issue
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
-    runs-on: ubuntu-latest
-    env:
-      JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
-      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/github-script@v4
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const path = require('path');
+# jobs:
+#   add-render-link-to-issue:
+#     name: Add render link to issue
+#     if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
+#     runs-on: ubuntu-latest
+#     env:
+#       JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
+#       JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/github-script@v4
+#         with:
+#           github-token: ${{secrets.GITHUB_TOKEN}}
+#           script: |
+#             const path = require('path');
 
-            return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
-              github,
-              context,
-              actionName: 'renderLinkComment',
-            });
+#             return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
+#               github,
+#               context,
+#               actionName: 'renderLinkComment',
+#             });
