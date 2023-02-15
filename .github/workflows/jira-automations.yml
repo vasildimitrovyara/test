@@ -1,0 +1,121 @@
+name: Jira Automations
+
+on:
+  issue_comment:
+    types: [created]
+  pull_request_review:
+  pull_request:
+    types:
+      [
+        opened,
+        closed,
+        ready_for_review,
+        review_requested,
+        review_request_removed,
+      ]
+
+jobs:
+  add-render-link-to-issue:
+    name: Add render link to issue
+    if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
+    runs-on: ubuntu-latest
+    env:
+      JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
+      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v4
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const path = require('path');
+
+            return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
+              github,
+              context,
+              actionName: 'renderLinkComment',
+            });
+  sync-developers-check-on-issue:
+    name: Sync developers' check on issue
+    if: github.event_name == 'pull_request_review' || (github.event_name == 'pull_request' && (github.event.action == 'review_requested' || github.event.action == 'review_request_removed'))
+    runs-on: ubuntu-latest
+    env:
+      JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
+      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
+      BRANCH_NAME: ${{github.event.pull_request.head.ref}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v4
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const path = require('path');
+
+            return require(path.resolve('.github/scripts/jira-automations/actionPR.js'))({
+              github,
+              context,
+              head_ref: process.env.BRANCH_NAME,
+              actionName: 'prReview',
+            });
+  pr-opened:
+    name: PR is ready for review
+    if: github.event_name == 'pull_request' && (github.event.action == 'ready_for_review' || (github.event.action == 'opened' && github.event.pull_request.draft == false))
+    runs-on: ubuntu-latest
+    env:
+      JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
+      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v4
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const path = require('path');
+
+            return require(path.resolve('.github/scripts/jira-automations/actionPR.js'))({
+              github,
+              context,
+              head_ref: '${{github.head_ref}}',
+              actionName: 'prOpened',
+            });
+  pr-merged:
+    name: Handle PR merge
+    if: github.event_name == 'pull_request' && github.event.action == 'closed' && github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    env:
+      JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
+      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v4
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const path = require('path');
+
+            return require(path.resolve('.github/scripts/jira-automations/actionPR.js'))({
+              github,
+              context,
+              head_ref: '${{github.head_ref}}',
+              actionName: 'prMerged',
+            });
+  releaseSuccessComment:
+    name: Handle release success comment
+    if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'yara-botato') && contains(github.event.comment.body, 'release')
+    runs-on: ubuntu-latest
+    env:
+      JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
+      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v4
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const path = require('path');
+
+            return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
+              github,
+              context,
+              actionName: 'releaseSuccess'
+            });
