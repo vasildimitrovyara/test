@@ -8,7 +8,7 @@ module.exports = async ({ github, context, actionName }) => {
       github,
       repo: context.payload.repository.name,
       owner: context.payload.repository.owner.login,
-      issueNumber: context.payload.issue.number,
+      issueNumber: context.payload.number,
     });
 
     const { comment } = context.payload;
