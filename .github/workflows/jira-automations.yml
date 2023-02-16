@@ -1,9 +1,9 @@
 name: Jira Automations
 
 on:
-  # issue_comment:
-  #   types: [created]
-  # pull_request_review:
+  issue_comment:
+    types: [created]
+  pull_request_review:
   pull_request:
     types:
       [
@@ -21,7 +21,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
-      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}} 
+      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
     steps:
       - uses: actions/checkout@v2
       - uses: actions/github-script@v4
@@ -30,7 +30,7 @@ jobs:
           script: |
             const path = require('path');
 
-            return require(path.resolve('.github/workflows/actionComment.js'))({
+            return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
               github,
               context,
               actionName: 'renderLinkComment',
