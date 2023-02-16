@@ -12,9 +12,8 @@ module.exports = async ({ github, context, actionName }) => {
     });
 
     const { comment } = context.payload;
-
+    console.log('AAAAA', comment, context.payload);
     if (!comment || !comment.body) {
-      console.log('context.payload', context.payload);
       throw new Error('Comment missing');
     }
 
