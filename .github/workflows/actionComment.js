@@ -1,5 +1,5 @@
-const executeTeamAction = require('./utils/executeTeamAction');
-const findBranchThroughPR = require('../utils/findBranchThroughPR');
+// const executeTeamAction = require('./utils/executeTeamAction');
+// const findBranchThroughPR = require('../utils/findBranchThroughPR');
 
 module.exports = async ({ github, context, actionName }) => {
   console.log(actionName)

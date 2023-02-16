@@ -17,7 +17,7 @@ on:
 jobs:
   add-render-link-to-issue:
     name: Add render link to issue
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
+    # if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
     runs-on: ubuntu-latest
     env:
       JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
@@ -30,7 +30,7 @@ jobs:
           script: |
             const path = require('path');
 
-            return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
+            return require(path.resolve('.github/workflows/actionComment.js'))({
               github,
               context,
               actionName: 'renderLinkComment',
