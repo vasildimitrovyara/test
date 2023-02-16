@@ -26,7 +26,7 @@ jobs:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
             const path = require('path');
-            return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
+            return require(path.resolve('.github/scripts/test.js'))({
               github,
               context,
               actionName: 'renderLinkComment',
