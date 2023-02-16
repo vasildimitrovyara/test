@@ -10,21 +10,21 @@ on:
       - '**'
 
 jobs:
-  apply-team-label:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/github-script@v3
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const path = require('path');
+  # apply-team-label:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - uses: actions/github-script@v3
+  #       with:
+  #         github-token: ${{secrets.GITHUB_TOKEN}}
+  #         script: |
+  #           const path = require('path');
 
-            return require(path.resolve('.github/scripts/apply-team-label.js'))({
-              github,
-              context,
-              ref: '${{github.head_ref}}',
-            });
+  #           return require(path.resolve('.github/scripts/apply-team-label.js'))({
+  #             github,
+  #             context,
+  #             ref: '${{github.head_ref}}',
+  #           });
   validate-commits:
     runs-on: ubuntu-latest
     steps:
