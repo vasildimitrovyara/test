@@ -2,7 +2,7 @@ const executeTeamAction = require('./utils/executeTeamAction');
 const findBranchThroughPR = require('../utils/findBranchThroughPR');
 
 module.exports = async ({ github, context, actionName }) => {
-  console.log('PAYYYLOAD', context.payload)
+  console.log('PAYYYLOAD', github)
   try {
     const branchName = await findBranchThroughPR({
       github,
@@ -12,7 +12,6 @@ module.exports = async ({ github, context, actionName }) => {
     });
 
     const { comment } = context.payload;
-    console.log('AAAAA', comment, context.payload);
     if (!comment || !comment.body) {
       throw new Error('Comment missing');
     }
