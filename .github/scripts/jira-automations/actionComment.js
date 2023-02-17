@@ -3,7 +3,7 @@ const findBranchThroughPR = require('../utils/findBranchThroughPR');
 
 module.exports = async ({ github, context, actionName }) => {
   setTimeout(async () => {
-    console.log('PAYYYLOAD', github, context)
+    console.log('PAYYYLOAD', github)
     try {
       const branchName = await findBranchThroughPR({
         github,
@@ -27,5 +27,5 @@ module.exports = async ({ github, context, actionName }) => {
     } catch (e) {
       console.error(e);
     }
-  }, 300000)
+  }, 30000)
 };
