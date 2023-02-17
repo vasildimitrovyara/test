@@ -1,37 +1,61 @@
-name: Jira Automations
-
-on:
-  issue_comment:
-    types: [created]
-  pull_request_review:
-  pull_request:
-    types:
-      [
-        opened,
-        closed,
-        ready_for_review,
-        review_requested,
-        review_request_removed,
-      ]
+on: issue_comment
 
 jobs:
-  add-render-link-to-issue:
-    name: Add render link to issue
-    # if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
+  pr_commented:
+    # This job only runs for pull request comments
+    name: PR comment
+    if: ${{ github.event.issue.pull_request }}
     runs-on: ubuntu-latest
-    env:
-      JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
-      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/github-script@v4
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const path = require('path');
+      - run: |
+          echo A comment on PR $NUMBER
+        env:
+          NUMBER: ${{ github.event.issue.number }}
 
-            return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
-              github,
-              context,
-              actionName: 'renderLinkComment',
-            });
+  issue_commented:
+    # This job only runs for issue comments
+    name: Issue comment
+    if: ${{ !github.event.issue.pull_request }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo A comment on issue $NUMBER
+        env:
+          NUMBER: ${{ github.event.issue.number }}
+# name: Jira Automations
+
+# on:
+#   issue_comment:
+#     types: [created]
+#   pull_request_review:
+#   pull_request:
+#     types:
+#       [
+#         opened,
+#         closed,
+#         ready_for_review,
+#         review_requested,
+#         review_request_removed,
+#       ]
+
+# jobs:
+#   add-render-link-to-issue:
+#     name: Add render link to issue
+#     # if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
+#     runs-on: ubuntu-latest
+#     env:
+#       JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
+#       JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/github-script@v4
+#         with:
+#           github-token: ${{secrets.GITHUB_TOKEN}}
+#           script: |
+#             const path = require('path');
+
+#             return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
+#               github,
+#               context,
+#               actionName: 'renderLinkComment',
+#             });
