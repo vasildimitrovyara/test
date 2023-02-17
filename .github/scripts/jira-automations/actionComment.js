@@ -2,7 +2,7 @@ const executeTeamAction = require('./utils/executeTeamAction');
 const findBranchThroughPR = require('../utils/findBranchThroughPR');
 
 module.exports = async ({ github, context, actionName }) => {
-  console.log('PAYYYLOAD', github)
+  console.log('PAYYYLOAD', github, context)
   try {
     const branchName = await findBranchThroughPR({
       github,
