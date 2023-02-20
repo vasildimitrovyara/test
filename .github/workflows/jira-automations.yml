@@ -17,6 +17,13 @@ on:
       ]
 
 jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJSON(github) }}
+        run: echo "$GITHUB_CONTEXT"
   print:
     # if: github.event.issue.pull_request != ''
     runs-on: ubuntu-latest
@@ -30,6 +37,7 @@ jobs:
       - name: Print to console
         run: |
          echo github.event
+         
   # add-render-link-to-issue:
   #   name: Add render link to issue
   #   if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
