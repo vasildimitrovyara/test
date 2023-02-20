@@ -35,7 +35,9 @@ on:
 jobs:
   add-render-link-to-issue:
     name: Add render link to issue
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
+    if: github.event.pull_request 
+    # github.event.issue.pull_request != '' 
+    # && contains(github.event.comment.user.login, 'render[bot]')
     runs-on: ubuntu-latest
     env:
       JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
