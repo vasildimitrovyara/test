@@ -54,4 +54,4 @@ jobs:
               github,
               context,
               actionName: 'renderLinkComment',
-            });
+            }); 
