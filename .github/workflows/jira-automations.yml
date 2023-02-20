@@ -8,35 +8,39 @@ on:
     types:
       [
         opened,
-        closed,
-        ready_for_review,
-        review_requested,
-        review_request_removed,
+        edited,
+        reopened,
+        # closed,
+        # ready_for_review,
+        # review_requested,
+        # review_request_removed,
       ]
 
 jobs:
   print:
     runs-on: ubuntu-latest
     steps:
+      # - name: Get repository code
+      #   uses: actions/checkout@v3
       - name: Print to console
         run: echo "${{ toJson(github.event) }}"
-  add-render-link-to-issue:
-    name: Add render link to issue
-    if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
-    runs-on: ubuntu-latest
-    env:
-      JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
-      JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
-    steps:
-      - uses: actions/checkout@v3
-      # - uses: actions/github-script@v4
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const path = require('path');
+  # add-render-link-to-issue:
+  #   name: Add render link to issue
+  #   if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
+  #   runs-on: ubuntu-latest
+  #   env:
+  #     JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
+  #     JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
+  #   steps:
+  #     - uses: actions/checkout@v3
+  #     # - uses: actions/github-script@v4
+  #       with:
+  #         github-token: ${{secrets.GITHUB_TOKEN}}
+  #         script: |
+  #           const path = require('path');
 
-            return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
-              github,
-              context,
-              actionName: 'renderLinkComment',
-            });
+  #           return require(path.resolve('.github/scripts/jira-automations/actionComment.js'))({
+  #             github,
+  #             context,
+  #             actionName: 'renderLinkComment',
+  #           });
