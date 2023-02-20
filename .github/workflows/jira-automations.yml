@@ -28,6 +28,9 @@ jobs:
       JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
       JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
     steps:
+      - name: Print content
+        run: echo "${{ toJson(github.event) }}""
+    steps:
       - uses: actions/checkout@v2
       - uses: actions/github-script@v4
         with:
