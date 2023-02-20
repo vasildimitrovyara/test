@@ -22,8 +22,13 @@ jobs:
     steps:
       # - name: Get repository code
       #   uses: actions/checkout@v3
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
       - name: Print to console
-        run: echo github.event
+        run: |
+         echo ${{ github.event }}
   # add-render-link-to-issue:
   #   name: Add render link to issue
   #   if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
