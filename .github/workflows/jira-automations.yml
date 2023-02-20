@@ -1,6 +1,8 @@
 name: Jira Automations
 
-on: issue_comment
+on: 
+  issue_comment:
+    types: [created, deleted]
 
 jobs:
   pr_commented:
@@ -24,7 +26,6 @@ jobs:
           echo A comment on issue $NUMBER
         env:
           NUMBER: ${{ github.event.issue.number }}
-
 # on:
 #   issue_comment:
 #     types: [created]
