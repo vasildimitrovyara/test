@@ -1,6 +1,8 @@
 name: Jira Automations
 
-on: issue_comment
+on: 
+  issue_comment:
+    types: [created, deleted]
 
 jobs:
   pr_commented:
