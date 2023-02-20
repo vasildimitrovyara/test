@@ -19,20 +19,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print to console
-        run: echo Hello jira automation 
+        run: echo Hello GH Actions
   add-render-link-to-issue:
     name: Add render link to issue
-    # if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
+    if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
     runs-on: ubuntu-latest
     env:
       JIRA_AUTOMATION_USER: ${{secrets.JIRA_AUTOMATION_USER}}
       JIRA_AUTOMATION_TOKEN: ${{secrets.JIRA_AUTOMATION_TOKEN}}
     steps:
-      - name: Print content
-        run: echo "${{ toJson(github.event) }}""
-    steps:
-      - uses: actions/checkout@v3
-      # - uses: actions/github-script@v4
+      - uses: actions/checkout@v2
+      - uses: actions/github-script@v4
         with:
           github-token: ${{secrets.GITHUB_TOKEN}}
           script: |
