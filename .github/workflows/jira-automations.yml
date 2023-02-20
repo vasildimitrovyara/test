@@ -19,7 +19,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Print to console
-        run: echo "${{ toJson(github.event)}}"
+        run: echo "${{ toJson(github.event) }}"
   add-render-link-to-issue:
     name: Add render link to issue
     if: github.event.issue.pull_request != '' && contains(github.event.comment.user.login, 'render[bot]')
