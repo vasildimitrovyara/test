@@ -1,24 +1,3 @@
-# name: Jira Automations
-
-# on:
-#   pull_request:
-#     types: [opened]
-#   issue_comment:
-#     types: [created]
-
-# jobs:
-#   deploy:
-#     runs-on: ubuntu-latest
-#     steps:
-#       - uses: khan/pull-request-comment-trigger@v1.1.0
-#         id: check
-#         with:
-#           trigger: '@deploy'
-#           reaction: rocket
-#         env:
-#           GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
-#       - run: 'echo Found it!'
-#         if: steps.check.outputs.triggered == 'true'
 on:
   issue_comment:
     types: [created]
@@ -54,4 +33,4 @@ jobs:
               github,
               context,
               actionName: 'renderLinkComment',
-            });
+            }); 
