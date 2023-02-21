@@ -118,4 +118,4 @@ jobs:
               github,
               context,
               actionName: 'releaseSuccess'
-            });
+            }); 

@@ -9,6 +9,8 @@ module.exports = async ({ github, owner, repo, issueNumber }) => {
       issueNumber,
     });
 
+    console.log(pullRequestDetails);
+
     return pullRequestDetails.head.ref;
   } catch (error) {
     console.error(error);
